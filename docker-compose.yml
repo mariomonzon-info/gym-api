@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:17
+    container_name: gym-postgres
+    environment:
+      POSTGRES_USER: mario
+      POSTGRES_PASSWORD: Sql1234
+      POSTGRES_DB: gym_app
+      POSTGRES_INITDB_ARGS: "--locale-provider=icu --icu-locale=es-ES"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U mario -d gym_app"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
